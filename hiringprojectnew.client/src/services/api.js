@@ -1,9 +1,11 @@
 import axios from "axios";
 
+// ==========================================
+// SMART HIRE API CONFIGURATION
+// ==========================================
+
 const api = axios.create({
-    baseURL:
-        import.meta.env.VITE_API_URL ||
-        "https://smarthireapi.runasp.net/api",
+    baseURL: "https://smarthireapi.runasp.net/api",
 
     headers: {
         "Content-Type": "application/json",
@@ -17,16 +19,16 @@ const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-        const token =
-            localStorage.getItem("smartHireToken");
+
+        const token = localStorage.getItem("smartHireToken");
 
         if (token) {
-            config.headers.Authorization =
-                `Bearer ${token}`;
+            config.headers.Authorization = `Bearer ${token}`;
         }
 
         return config;
     },
+
     (error) => {
         return Promise.reject(error);
     }
@@ -38,6 +40,7 @@ api.interceptors.request.use(
 // ==========================================
 
 api.interceptors.response.use(
+
     (response) => {
         return response;
     },
@@ -61,12 +64,13 @@ api.interceptors.response.use(
             );
 
             /*
-             * Do NOT immediately remove the JWT token
-             * or redirect to login.
+             * Do NOT automatically remove the JWT token.
              *
-             * This prevents the application from
-             * unexpectedly logging out the recruiter
-             * when one API request returns 401.
+             * Do NOT automatically redirect to login.
+             *
+             * This keeps the existing project behaviour
+             * unchanged when an individual API request
+             * returns 401.
              */
 
             return Promise.reject(error);
@@ -74,7 +78,27 @@ api.interceptors.response.use(
 
 
         // ==========================================
-        // RETURN OTHER ERRORS
+        // SERVER ERROR
+        // ==========================================
+
+        if (error.response?.status >= 500) {
+
+            console.error(
+                "SmartHire server error:",
+                error.config?.url
+            );
+
+            console.error(
+                "Response:",
+                error.response?.data
+            );
+
+            return Promise.reject(error);
+        }
+
+
+        // ==========================================
+        // OTHER API ERRORS
         // ==========================================
 
         return Promise.reject(error);
