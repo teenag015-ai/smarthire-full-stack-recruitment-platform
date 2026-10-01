@@ -51,6 +51,12 @@ appsettings.Local.json
 *.sw?
 
 # ==========================================
+# Visual Studio Publish Profiles
+# ==========================================
+
+**/Properties/PublishProfiles/
+
+# ==========================================
 # Visual Studio Code
 # ==========================================
 

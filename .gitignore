@@ -53,3 +53,8 @@ Thumbs.db
 # User-specific files
 *.user
 *.rsuser
+# Visual Studio Publish Profiles
+**/Properties/PublishProfiles/
+
+# Deployment SQL script
+SmartHireMigration.sql

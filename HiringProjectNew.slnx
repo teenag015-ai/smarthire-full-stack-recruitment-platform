@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore.txt" />
+  </Folder>
   <Project Path="hiringprojectnew.client/hiringprojectnew.client.esproj">
     <Build />
     <Deploy />
